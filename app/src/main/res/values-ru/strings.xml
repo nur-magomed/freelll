@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">hop</string>
+    <string name="action_settings">Настройки</string>
+    <string name="navigation_drawer_close">Закрыть меню</string>
+    <string name="tab_archive">архив</string>
+    <string name="tab_create">создать</string>
+    <string name="tab_in_progress">в процессе</string>
+
+    <string name="task_add_btn">Добавить</string>
+    <string name="task_amount_from">От</string>
+    <string name="task_amount_to">До</string>
+    <string name="task_date">Дата</string>
+    <string name="task_date_and_time">Срок выполнения</string>
+    <string name="task_description">Описание</string>
+    <string name="task_information">Информация</string>
+    <string name="task_payment">Оплата</string>
+    <string name="task_time">Время</string>
+    <string name="task_title">Тема</string>
+    <string name="menu_exit">Выход</string>
+    <string name="menu_about">О программе</string>
+    <string name="menu_share">Поделиться</string>
+    <string name="menu_account">Аккаунт</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_search">Поиск</string>
+    <string name="menu_favorite">Закладки</string>
+    <string name="menu_messages">Сообщения</string>
+    <string name="navigation_drawer_open">Открыть меню</string>
+    <string name="pending_no_content">У вас нет тукущих задач</string>
+    <string name="task_skills">Навыки</string>
+    <string name="task_submit_btn">Создать</string>
+    <string name="task_category">Категория</string>
+    <string name="task_address">Адрес</string>
+    <string name="task_amount">Предложение</string>
+    <string name="dialog_attach_photo">Добавить фото</string>
+    <string name="dialog_gallery">Галерея</string>
+    <string name="dialog_camera">Камера</string>
+    <string name="cancel">Отмена</string>
+    <string name="lbl_choose_category">Введите категорию</string>
+    <string name="GPSAlertDialogTitle">Location</string>
+    <string name="GPSAlertDialogMessage">Sthg with location</string>
+
+    <string-array name="deadlines">
+        <item>Срочно</item>
+        <item>2–3 дня</item>
+        <item>Больше 3–х дней</item>
+    </string-array>
+    <string name="hello_blank_fragment"></string>
+    <string name="search_tab">поиск</string>
+</resources>
