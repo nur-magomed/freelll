@@ -28,13 +28,15 @@ public class OfferDetail extends AppCompatActivity {
     /** Tag for the log messages */
     public static final String LOG_TAG = OpenOffersFragment.class.getSimpleName();
 
-//    ProgressBar progressBar;
+    ProgressBar progressBar;
     LinearLayout ll;
     TextView clientName;
     TextView title;
     TextView date;
     TextView status;
     TextView amount;
+    TextView address;
+
     TextView username;
     TextView firstName;
     TextView lastName;
@@ -49,7 +51,8 @@ public class OfferDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_detail);
         init();
-//        progressBar.setVisibility(View.VISIBLE);
+        ll.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         intent = getIntent();
         //TODO:
         // 1 progress bar
@@ -60,13 +63,16 @@ public class OfferDetail extends AppCompatActivity {
     }
 
     private void init() {
-//         progressBar = (ProgressBar) findViewById(R.id.arch_loading_indicator);
+
+         progressBar = (ProgressBar) findViewById(R.id.arch_loading_indicator);
          ll = (LinearLayout) findViewById(R.id.mainLL);
          clientName = (TextView) findViewById(R.id.client_name);
-         title = (TextView) findViewById(R.id.of_tite);
+         title = (TextView) findViewById(R.id.of_title);
          date = (TextView) findViewById(R.id.of_date);
          status = (TextView) findViewById(R.id.of_status);
          amount = (TextView) findViewById(R.id.of_amount);
+         address = (TextView) findViewById(R.id.of_address);
+
          username = (TextView) findViewById(R.id.user_name);
          firstName = (TextView) findViewById(R.id.first_name);
          lastName = (TextView) findViewById(R.id.last_name);
@@ -107,13 +113,16 @@ public class OfferDetail extends AppCompatActivity {
     private void showOffer(Offer offer) {
 //        Toast.makeText(this, "Message "+ offer.getTitle(), Toast.LENGTH_LONG).show();
 //        Toast.makeText(this, "Img "+ offer.getPath(), Toast.LENGTH_LONG).show();
-//        progressBar.setVisibility(View.GONE);
-//        ll.setVisibility(View.VISIBLE);
+
+        //TODO add icons
+        progressBar.setVisibility(View.GONE);
+        ll.setVisibility(View.VISIBLE);
         clientName.setText(offer.getClient_id());
         title.setText(offer.getTitle());
         date.setText(offer.getCreated_date());
         status.setText(offer.getStatus());
         amount.setText(String.valueOf(offer.getBudget()));
+        address.setText(offer.getAddress());
         username.setText(offer.getUsername());
         firstName.setText(offer.getFirstName());
         lastName.setText(offer.getLastName());

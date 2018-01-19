@@ -4,23 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.vantuz.nm.hop_freelancer.OfferDetail">
+    tools:context="com.vantuz.nm.hop_freelancer.OfferDetail"
+    android:background="@android:color/white">
 
 
-    <!--<ProgressBar-->
-        <!--android:id="@+id/arch_loading_indicator"-->
-        <!--style="@style/Widget.AppCompat.ProgressBar"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:visibility="gone"/>-->
-
+    <ProgressBar
+        android:id="@+id/arch_loading_indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/mainLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,28 +34,33 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_weight="0"
-                android:src="@drawable/image"/>
+                android:src="@drawable/ic_profile_img"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginLeft="6dp">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/client_name"/>
+                        android:id="@+id/client_name"
+                        android:textSize="16sp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/user_name"/>
+                        android:id="@+id/user_name"
+                        android:textSize="16sp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/first_name"/>
+                        android:id="@+id/first_name"
+                        android:textSize="16sp"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/last_name"/>
+                        android:id="@+id/last_name"
+                        android:textSize="16sp"/>
                 </LinearLayout>
         </LinearLayout>
 
@@ -63,30 +69,97 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="20dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/of_tite"/>
-            <TextView
+                android:id="@+id/of_title"
+                android:textSize="22sp"
+                android:layout_marginBottom="8dp"/>
+            
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/of_address"/>
-            <TextView
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_location"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/of_address"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/of_date"/>
-            <TextView
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_calendar"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/of_date"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/of_status"/>
-            <TextView
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_menu_favorite"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/of_status"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/of_amount"/>
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_rub"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/of_amount"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btn_applay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="apply"/>
 
     </LinearLayout>
+
 
 </RelativeLayout>

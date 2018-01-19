@@ -19,7 +19,7 @@ public class Offer {
     private String address;
     @SerializedName("created_datetime")
     private String  created_date;
-    @SerializedName("status_id")
+    @SerializedName("name")
     private String  status;
     private String  path;
     private String  username;

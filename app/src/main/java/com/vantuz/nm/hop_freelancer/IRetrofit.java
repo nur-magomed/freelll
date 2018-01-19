@@ -23,4 +23,5 @@ public interface IRetrofit {
 
     @GET("order.php?action=test_id")
     Call<List<Offer>> getOfferByTestId(@Query("test_id") String id);
+
 }
