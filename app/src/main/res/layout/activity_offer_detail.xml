@@ -154,7 +154,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_applay"
+            android:id="@+id/btn_apply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="apply"/>

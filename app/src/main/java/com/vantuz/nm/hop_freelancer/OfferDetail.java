@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ public class OfferDetail extends AppCompatActivity {
     /** Tag for the log messages */
     public static final String LOG_TAG = OpenOffersFragment.class.getSimpleName();
 
+    Offer offfer;
+
     ProgressBar progressBar;
     LinearLayout ll;
     TextView clientName;
@@ -36,6 +39,8 @@ public class OfferDetail extends AppCompatActivity {
     TextView status;
     TextView amount;
     TextView address;
+
+    Button btn_apply;
 
     TextView username;
     TextView firstName;
@@ -72,6 +77,8 @@ public class OfferDetail extends AppCompatActivity {
          status = (TextView) findViewById(R.id.of_status);
          amount = (TextView) findViewById(R.id.of_amount);
          address = (TextView) findViewById(R.id.of_address);
+
+         btn_apply = (Button) findViewById(R.id.btn_apply);
 
          username = (TextView) findViewById(R.id.user_name);
          firstName = (TextView) findViewById(R.id.first_name);
@@ -110,11 +117,15 @@ public class OfferDetail extends AppCompatActivity {
 
     }
 
+    /**
+     * Displaying offer details
+     * @param offer
+     */
     private void showOffer(Offer offer) {
-//        Toast.makeText(this, "Message "+ offer.getTitle(), Toast.LENGTH_LONG).show();
-//        Toast.makeText(this, "Img "+ offer.getPath(), Toast.LENGTH_LONG).show();
 
-        //TODO add icons
+        offfer = offer;
+        btn_apply.setOnClickListener(apply);
+
         progressBar.setVisibility(View.GONE);
         ll.setVisibility(View.VISIBLE);
         clientName.setText(offer.getClient_id());
@@ -127,5 +138,42 @@ public class OfferDetail extends AppCompatActivity {
         firstName.setText(offer.getFirstName());
         lastName.setText(offer.getLastName());
     }
+
+    private View.OnClickListener apply = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //TODO APPLY PROCESS
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API_URI)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            IRetrofit service = retrofit.create(IRetrofit.class);
+            Proposal proposal = new Proposal("1", "2", "3", "desc");
+
+            Call<List<Proposal>> call = service.sendProposal(proposal);
+
+            // Execute the call asynchronously. Get a positive or negative callback.
+            call.enqueue(new Callback<List<Proposal>>() {
+                @Override
+                public void onResponse(Call<List<Proposal>> call, Response<List<Proposal>> response) {
+                    // The network call was a success and we got a response
+                    List<Proposal> props = new ArrayList<Proposal>();
+                    props.addAll(response.body());
+                    Toast.makeText(OfferDetail.this, "Предложениу успешно отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(Call<List<Proposal>> call, Throwable t) {
+                    // the network call was a failure
+                    Log.e(LOG_TAG, "Error getting open offers by retrofit: ", t);
+                    Toast.makeText(OfferDetail.this, "Ошибка отправки предложения", Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }
+    };
+
 
 }

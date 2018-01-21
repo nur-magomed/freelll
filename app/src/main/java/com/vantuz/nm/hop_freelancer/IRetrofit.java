@@ -3,7 +3,11 @@ package com.vantuz.nm.hop_freelancer;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -24,4 +28,8 @@ public interface IRetrofit {
     @GET("order.php?action=test_id")
     Call<List<Offer>> getOfferByTestId(@Query("test_id") String id);
 
+
+//    @FormUrlEncoded
+    @POST("/proposal.php")
+    Call<List<Proposal>> sendProposal(@Body Proposal proposal);
 }
