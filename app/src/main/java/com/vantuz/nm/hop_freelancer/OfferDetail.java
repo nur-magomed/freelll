@@ -1,16 +1,20 @@
 package com.vantuz.nm.hop_freelancer;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vantuz.nm.hop_freelancer.fragment.ApplyDialog;
 import com.vantuz.nm.hop_freelancer.fragment.OpenOffersFragment;
 
 import java.util.ArrayList;
@@ -22,7 +26,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static java.util.Collections.addAll;
 
 public class OfferDetail extends AppCompatActivity {
 
@@ -30,6 +33,12 @@ public class OfferDetail extends AppCompatActivity {
     public static final String LOG_TAG = OpenOffersFragment.class.getSimpleName();
 
     Offer offfer;
+
+    TextView username;
+    TextView firstName;
+    TextView lastName;
+
+
 
     ProgressBar progressBar;
     LinearLayout ll;
@@ -42,12 +51,14 @@ public class OfferDetail extends AppCompatActivity {
 
     Button btn_apply;
 
-    TextView username;
-    TextView firstName;
-    TextView lastName;
+    EditText propAmount;
+    EditText propDesc;
 
     /** URL to query the ORDER dataset for user archive */
     private static final String API_URI = "http://cn71805-wordpress-5.tw1.ru/";
+
+    private String mockFreelanceId = "0";
+
 
     String offerId = "";
     Intent intent = null;
@@ -68,21 +79,24 @@ public class OfferDetail extends AppCompatActivity {
     }
 
     private void init() {
+        progressBar = (ProgressBar) findViewById(R.id.arch_loading_indicator);
+        ll = (LinearLayout) findViewById(R.id.mainLL);
 
-         progressBar = (ProgressBar) findViewById(R.id.arch_loading_indicator);
-         ll = (LinearLayout) findViewById(R.id.mainLL);
-         clientName = (TextView) findViewById(R.id.client_name);
-         title = (TextView) findViewById(R.id.of_title);
-         date = (TextView) findViewById(R.id.of_date);
-         status = (TextView) findViewById(R.id.of_status);
-         amount = (TextView) findViewById(R.id.of_amount);
-         address = (TextView) findViewById(R.id.of_address);
+        username = (TextView) findViewById(R.id.user_name);
+        firstName = (TextView) findViewById(R.id.first_name);
+        lastName = (TextView) findViewById(R.id.last_name);
 
-         btn_apply = (Button) findViewById(R.id.btn_apply);
+        clientName = (TextView) findViewById(R.id.client_name);
+        title = (TextView) findViewById(R.id.of_title);
+        date = (TextView) findViewById(R.id.of_date);
+        status = (TextView) findViewById(R.id.of_status);
+        amount = (TextView) findViewById(R.id.of_amount);
+        address = (TextView) findViewById(R.id.of_address);
 
-         username = (TextView) findViewById(R.id.user_name);
-         firstName = (TextView) findViewById(R.id.first_name);
-         lastName = (TextView) findViewById(R.id.last_name);
+        propAmount = (EditText) findViewById(R.id.prop_amount);
+        propDesc = (EditText) findViewById(R.id.prop_desc);
+
+        btn_apply = (Button) findViewById(R.id.btn_apply);
     }
 
     private void loadOffer() {
@@ -137,12 +151,21 @@ public class OfferDetail extends AppCompatActivity {
         username.setText(offer.getUsername());
         firstName.setText(offer.getFirstName());
         lastName.setText(offer.getLastName());
+
+        propAmount.setText(offer.getBudget()+"");
+        propDesc.setText("Здравствуйте! Буду рад выполнить Ваш заказ.");
+
+        isApplied();
     }
 
     private View.OnClickListener apply = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //TODO APPLY PROCESS
+
+            //TODO apply dialog
+//            ApplyDialog dialog = new ApplyDialog();
+//            FragmentManager manager = getFragmentManager();
+//            dialog.show(manager, "fff");
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(API_URI)
@@ -150,7 +173,7 @@ public class OfferDetail extends AppCompatActivity {
                     .build();
 
             IRetrofit service = retrofit.create(IRetrofit.class);
-            Proposal proposal = new Proposal("1", "2", "3", "desc");
+            Proposal proposal = new Proposal(offfer.getOrderClientId(), mockFreelanceId, propAmount.getText()+"", propDesc.getText()+"");
 
             Call<List<Proposal>> call = service.sendProposal(proposal);
 
@@ -161,7 +184,7 @@ public class OfferDetail extends AppCompatActivity {
                     // The network call was a success and we got a response
                     List<Proposal> props = new ArrayList<Proposal>();
                     props.addAll(response.body());
-                    Toast.makeText(OfferDetail.this, "Предложениу успешно отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(OfferDetail.this, "Предложение успешно отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -175,5 +198,39 @@ public class OfferDetail extends AppCompatActivity {
         }
     };
 
+    public boolean isApplied() {
+        boolean applied = false;
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_URI)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+         IRetrofit service = retrofit.create(IRetrofit.class);
+
+        Call<List<Proposal>> call = service.getProposal(offfer.getOrderClientId(), mockFreelanceId);
+
+        // Execute the call asynchronously. Get a positive or negative callback.
+        call.enqueue(new Callback<List<Proposal>>() {
+            @Override
+            public void onResponse(Call<List<Proposal>> call, Response<List<Proposal>> response) {
+                // The network call was a success and we got a response
+                List<Proposal> props = new ArrayList<Proposal>();
+                props.addAll(response.body());
+                if (props.size()>0){
+                    btn_apply.setVisibility(View.INVISIBLE);
+                }
+                Toast.makeText(OfferDetail.this, "Предложение уже отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<List<Proposal>> call, Throwable t) {
+                // the network call was a failure
+                Log.e(LOG_TAG, "Error getting open offers by retrofit: ", t);
+                Toast.makeText(OfferDetail.this, "Ошибка отправки предложения", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return applied;
+    }
 }

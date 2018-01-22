@@ -32,4 +32,7 @@ public interface IRetrofit {
 //    @FormUrlEncoded
     @POST("/proposal.php")
     Call<List<Proposal>> sendProposal(@Body Proposal proposal);
+
+    @GET("proposal.php?action=get_proposals")
+    Call<List<Proposal>> getProposal(@Query("client_order_id") String clientOrderId, @Query("freelancer_id") String freelancerId);
 }

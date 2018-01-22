@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by NM on 21.01.2018.
  */
 
-class Proposal {
+public class Proposal {
 
     @SerializedName("client_order_id")
     private String  clientOrderId;
