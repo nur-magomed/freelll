@@ -80,7 +80,7 @@ public class OpenOffersListAdapter extends RecyclerView.Adapter<OpenOffersListAd
 
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "id: " + offerId + "   position: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(view.getContext(), "id: " + offerId + "   position: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(view.getContext(), OfferDetail.class);
                     intent.putExtra("offerId", offerId);
                     view.getContext().startActivity(intent);

@@ -38,8 +38,6 @@ public class OfferDetail extends AppCompatActivity {
     TextView firstName;
     TextView lastName;
 
-
-
     ProgressBar progressBar;
     LinearLayout ll;
     TextView clientName;
@@ -80,23 +78,19 @@ public class OfferDetail extends AppCompatActivity {
 
     private void init() {
         progressBar = (ProgressBar) findViewById(R.id.arch_loading_indicator);
-        ll = (LinearLayout) findViewById(R.id.mainLL);
-
-        username = (TextView) findViewById(R.id.user_name);
-        firstName = (TextView) findViewById(R.id.first_name);
-        lastName = (TextView) findViewById(R.id.last_name);
-
-        clientName = (TextView) findViewById(R.id.client_name);
-        title = (TextView) findViewById(R.id.of_title);
-        date = (TextView) findViewById(R.id.of_date);
-        status = (TextView) findViewById(R.id.of_status);
-        amount = (TextView) findViewById(R.id.of_amount);
-        address = (TextView) findViewById(R.id.of_address);
-
-        propAmount = (EditText) findViewById(R.id.prop_amount);
-        propDesc = (EditText) findViewById(R.id.prop_desc);
-
-        btn_apply = (Button) findViewById(R.id.btn_apply);
+        ll          = (LinearLayout) findViewById(R.id.mainLL);
+        username    = (TextView) findViewById(R.id.user_name);
+        firstName   = (TextView) findViewById(R.id.first_name);
+        lastName    = (TextView) findViewById(R.id.last_name);
+        clientName  = (TextView) findViewById(R.id.client_name);
+        title       = (TextView) findViewById(R.id.of_title);
+        date        = (TextView) findViewById(R.id.of_date);
+        status      = (TextView) findViewById(R.id.of_status);
+        amount      = (TextView) findViewById(R.id.of_amount);
+        address     = (TextView) findViewById(R.id.of_address);
+        propAmount  = (EditText) findViewById(R.id.prop_amount);
+        propDesc    = (EditText) findViewById(R.id.prop_desc);
+        btn_apply   = (Button) findViewById(R.id.btn_apply);
     }
 
     private void loadOffer() {
@@ -114,10 +108,14 @@ public class OfferDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
                 // The network call was a success and we got a response
-                List<Offer> offerList = new ArrayList<Offer>();
-                offerList.addAll(response.body());
-                if (offerList.size()>0){
-                    showOffer(offerList.get(0));
+                if(response.body() != null) {
+                    List<Offer> offerList = new ArrayList<Offer>();
+                    offerList.addAll(response.body());
+                    if (offerList.size() > 0) {
+                        showOffer(offerList.get(0));
+                    }
+                } else {
+                    Toast.makeText(OfferDetail.this, "Что-то пошло не так. Ошибка получения информации по задаче.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -140,6 +138,7 @@ public class OfferDetail extends AppCompatActivity {
         offfer = offer;
         btn_apply.setOnClickListener(apply);
 
+
         progressBar.setVisibility(View.GONE);
         ll.setVisibility(View.VISIBLE);
         clientName.setText(offer.getClient_id());
@@ -155,6 +154,7 @@ public class OfferDetail extends AppCompatActivity {
         propAmount.setText(offer.getBudget()+"");
         propDesc.setText("Здравствуйте! Буду рад выполнить Ваш заказ.");
 
+        //TODO убрать логику вьюшки из retrofita
         isApplied();
     }
 
@@ -215,12 +215,18 @@ public class OfferDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Proposal>> call, Response<List<Proposal>> response) {
                 // The network call was a success and we got a response
-                List<Proposal> props = new ArrayList<Proposal>();
-                props.addAll(response.body());
-                if (props.size()>0){
-                    btn_apply.setVisibility(View.INVISIBLE);
+
+                if(response.body() != null) {
+                    List<Proposal> props = new ArrayList<Proposal>();
+                    props.addAll(response.body());
+                    if (props.size() > 0) {
+                        btn_apply.setVisibility(View.INVISIBLE);
+                        Toast.makeText(OfferDetail.this, "Предложение уже отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
+                    }
                 }
-                Toast.makeText(OfferDetail.this, "Предложение уже отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
+                else {
+                    //response body null
+                }
             }
 
             @Override
