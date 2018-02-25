@@ -21,8 +21,6 @@ public class Offer {
     private String  created_date;
     @SerializedName("name")
     private String  status;
-    @SerializedName("client_order_id")
-    private String  orderClientId;
     private String  path;
     private String  username;
     @SerializedName("first_name")
@@ -53,14 +51,13 @@ public class Offer {
         this.status = status;
     }
 
-    public Offer(String offer_id, String title, String address, String created_date, Integer budget, String status, String orderClientId, String client_id, String path, String username, String firstName, String lastName) {
+    public Offer(String offer_id, String title, String address, String created_date, Integer budget, String status, String client_id, String path, String username, String firstName, String lastName) {
         this.offer_id = offer_id;
         this.title = title;
         this.address = address;
         this.created_date = created_date;
         this.client_id = client_id;
         this.budget = budget;
-        this.orderClientId = orderClientId;
         this.status = status;
         this.path = path;
         this.username = username;
@@ -130,14 +127,6 @@ public class Offer {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getOrderClientId() {
-        return orderClientId;
-    }
-
-    public void setOrderClientId(String orderClientId) {
-        this.orderClientId = orderClientId;
     }
 
     public String getPath() {

@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Proposal {
 
-    @SerializedName("client_order_id")
-    private String  clientOrderId;
+    @SerializedName("offer_id")
+    private String  offerId;
     @SerializedName("freelancer_id")
     private String  freelancerId;
     private String  amount;
@@ -19,11 +19,17 @@ public class Proposal {
     @SerializedName("updated_datetime")
     private String  updated;
 
+    //Freelancer
+    @SerializedName("first_name")
+    private String  firstName;
+    @SerializedName("last_name")
+    private String  lastName;
+
     public Proposal() {
     }
 
-    public Proposal(String clientOrderId, String freelancerId, String amount, String description, String created, String updated) {
-        this.clientOrderId = clientOrderId;
+    public Proposal(String offerId, String freelancerId, String amount, String description, String created, String updated) {
+        this.offerId = offerId;
         this.freelancerId = freelancerId;
         this.amount = amount;
         this.description = description;
@@ -31,19 +37,30 @@ public class Proposal {
         this.updated = updated;
     }
 
-    public Proposal(String clientOrderId, String freelancerId, String amount, String description) {
-        this.clientOrderId = clientOrderId;
+    public Proposal(String offerId, String freelancerId, String amount, String description) {
+        this.offerId = offerId;
         this.freelancerId = freelancerId;
         this.amount = amount;
         this.description = description;
     }
 
-    public String getClientOrderId() {
-        return clientOrderId;
+    public Proposal(String offerId, String freelancerId, String amount, String description, String created, String updated, String firstName, String lastName) {
+        this.offerId = offerId;
+        this.freelancerId = freelancerId;
+        this.amount = amount;
+        this.description = description;
+        this.created = created;
+        this.updated = updated;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public void setClientOrderId(String clientOrderId) {
-        this.clientOrderId = clientOrderId;
+    public String getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
     }
 
     public String getFreelancerId() {
@@ -84,5 +101,21 @@ public class Proposal {
 
     public void setUpdated(String updated) {
         this.updated = updated;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

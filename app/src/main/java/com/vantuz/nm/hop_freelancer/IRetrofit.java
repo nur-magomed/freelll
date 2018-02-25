@@ -22,17 +22,18 @@ public interface IRetrofit {
     @GET("order.php?action=select")
     Call<List<Offer>> getOffers();
 
+    @GET("order.php?action=openOffers")
+    Call<List<Offer>> getOpenOffers();
+
     @GET("order.php?action=offer_id")
     Call<List<Offer>> getOfferById(@Query("offer_id") String id);
 
     @GET("order.php?action=test_id")
     Call<List<Offer>> getOfferByTestId(@Query("test_id") String id);
 
-
-//    @FormUrlEncoded
     @POST("/proposal.php")
     Call<List<Proposal>> sendProposal(@Body Proposal proposal);
 
     @GET("proposal.php?action=get_proposals")
-    Call<List<Proposal>> getProposal(@Query("client_order_id") String clientOrderId, @Query("freelancer_id") String freelancerId);
+    Call<List<Proposal>> getProposal(@Query("offer_id") String offerId, @Query("freelancer_id") String freelancerId);
 }

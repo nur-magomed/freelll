@@ -1,6 +1,5 @@
 package com.vantuz.nm.hop_freelancer;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -14,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.vantuz.nm.hop_freelancer.fragment.ApplyDialog;
 import com.vantuz.nm.hop_freelancer.fragment.OpenOffersFragment;
 
 import java.util.ArrayList;
@@ -55,7 +53,7 @@ public class OfferDetail extends AppCompatActivity {
     /** URL to query the ORDER dataset for user archive */
     private static final String API_URI = "http://cn71805-wordpress-5.tw1.ru/";
 
-    private String mockFreelanceId = "0";
+    private String mockFreelanceId = "1";
 
 
     String offerId = "";
@@ -77,7 +75,7 @@ public class OfferDetail extends AppCompatActivity {
     }
 
     private void init() {
-        progressBar = (ProgressBar) findViewById(R.id.arch_loading_indicator);
+        progressBar = (ProgressBar) findViewById(R.id.offer_details_loading_indicator);
         ll          = (LinearLayout) findViewById(R.id.mainLL);
         username    = (TextView) findViewById(R.id.user_name);
         firstName   = (TextView) findViewById(R.id.first_name);
@@ -138,7 +136,6 @@ public class OfferDetail extends AppCompatActivity {
         offfer = offer;
         btn_apply.setOnClickListener(apply);
 
-
         progressBar.setVisibility(View.GONE);
         ll.setVisibility(View.VISIBLE);
         clientName.setText(offer.getClient_id());
@@ -173,7 +170,7 @@ public class OfferDetail extends AppCompatActivity {
                     .build();
 
             IRetrofit service = retrofit.create(IRetrofit.class);
-            Proposal proposal = new Proposal(offfer.getOrderClientId(), mockFreelanceId, propAmount.getText()+"", propDesc.getText()+"");
+            Proposal proposal = new Proposal(offfer.getOffer_id(), mockFreelanceId, propAmount.getText()+"", propDesc.getText()+"");
 
             Call<List<Proposal>> call = service.sendProposal(proposal);
 
@@ -183,8 +180,10 @@ public class OfferDetail extends AppCompatActivity {
                 public void onResponse(Call<List<Proposal>> call, Response<List<Proposal>> response) {
                     // The network call was a success and we got a response
                     List<Proposal> props = new ArrayList<Proposal>();
-                    props.addAll(response.body());
-                    Toast.makeText(OfferDetail.this, "Предложение успешно отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
+                    if (response.body() != null) {
+                        props.addAll(response.body());
+                        Toast.makeText(OfferDetail.this, "Предложение успешно отправлено." + props.get(0).getOfferId(), Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
@@ -208,7 +207,7 @@ public class OfferDetail extends AppCompatActivity {
 
          IRetrofit service = retrofit.create(IRetrofit.class);
 
-        Call<List<Proposal>> call = service.getProposal(offfer.getOrderClientId(), mockFreelanceId);
+        Call<List<Proposal>> call = service.getProposal(offfer.getOffer_id(), mockFreelanceId);
 
         // Execute the call asynchronously. Get a positive or negative callback.
         call.enqueue(new Callback<List<Proposal>>() {
@@ -220,8 +219,8 @@ public class OfferDetail extends AppCompatActivity {
                     List<Proposal> props = new ArrayList<Proposal>();
                     props.addAll(response.body());
                     if (props.size() > 0) {
-                        btn_apply.setVisibility(View.INVISIBLE);
-                        Toast.makeText(OfferDetail.this, "Предложение уже отправлено." + props.get(0).getClientOrderId(), Toast.LENGTH_LONG).show();
+                        //Предложение уже отправлено.
+                        editProposal();
                     }
                 }
                 else {
@@ -238,5 +237,11 @@ public class OfferDetail extends AppCompatActivity {
         });
 
         return applied;
+    }
+
+    private void editProposal() {
+        //TODO editable
+        btn_apply.setVisibility(View.INVISIBLE);
+        Toast.makeText(OfferDetail.this, "Предложение уже отправлено.", Toast.LENGTH_LONG).show();
     }
 }

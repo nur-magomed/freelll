@@ -79,15 +79,19 @@ public class OpenOffersFragment extends AbstractTabFragment {
                 .build();
 
         IRetrofit service = retrofit.create(IRetrofit.class);
-        Call<List<Offer>> call = service.getOffers();
+        Call<List<Offer>> call = service.getOpenOffers();
 
         // Execute the call asynchronously. Get a positive or negative callback.
         call.enqueue(new Callback<List<Offer>>() {
             @Override
             public void onResponse(Call<List<Offer>> call, Response<List<Offer>> response) {
                 // The network call was a success and we got a response
-                offersList.addAll(response.body());
-                showOffers();
+                if (response.body() != null){
+                    offersList.addAll(response.body());
+                    showOffers();
+                } else {
+                    Toast.makeText(context, "Список пуст.", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
